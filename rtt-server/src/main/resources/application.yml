@@ -1,0 +1,85 @@
+server:
+    port: 13140
+spring:
+    cloud:
+        sentinel:
+            transport:
+                port: 8720
+                dashboard: http://127.0.0.1:13149
+            log:
+                dir: ./logs/
+            datasource:
+                ds1:
+#                    使用 nacos 作为动态规则的数据源
+                    nacos:
+                        username: ${spring.cloud.nacos.username}
+                        password: ${spring.cloud.nacos.password}
+                        server-addr: ${spring.cloud.nacos.server-addr}
+                        group-id: sentinel
+                        namespace: dev
+                        data-id: sentinel-flow
+                        rule-type: flow
+                        data-type: json
+                ds2:
+                    nacos:
+                        username: ${spring.cloud.nacos.username}
+                        password: ${spring.cloud.nacos.password}
+                        server-addr: ${spring.cloud.nacos.server-addr}
+                        group-id: sentinel
+                        namespace: dev
+                        data-id: sentinel-degrade
+                        rule-type: degrade
+                        data-type: json
+#                ds3:
+#                    nacos:
+#                        username: ${spring.cloud.nacos.username}
+#                        password: ${spring.cloud.nacos.password}
+#                        server-addr: ${spring.cloud.nacos.server-addr}
+#                        group-id: sentinel
+#                        namespace: dev
+#                        data-id: sentinel-system
+#                        rule-type: system
+#                        data-type: json
+                ds4:
+                    nacos:
+                        username: ${spring.cloud.nacos.username}
+                        password: ${spring.cloud.nacos.password}
+                        server-addr: ${spring.cloud.nacos.server-addr}
+                        group-id: sentinel
+                        namespace: dev
+                        data-id: sentinel-param
+                        rule-type: param_flow
+                        data-type: json
+        loadbalancer:
+            nacos:
+                enabled: true
+seata:
+    enabled: true
+    # 事务分组，类似于服务实例
+    tx-service-group: server-service-group
+#    注册中心
+    registry:
+        type: nacos
+        nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            username: ${spring.cloud.nacos.username}
+            password: ${spring.cloud.nacos.password}
+            group: seata
+            namespace: dev
+            cluster: default
+#    seata 客户端配置
+    config:
+        type: nacos
+        data-type: properties
+        nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            username: ${spring.cloud.nacos.username}
+            password: ${spring.cloud.nacos.password}
+            group: seata
+            namespace: dev
+            data-id: seata-client.properties
+    # 事务分组名和TC集群的映射关系
+    # 比如这个对应的 TC 集群名称就是 default，获取 TC 集群中各个 TC 的服务地址
+    service:
+        vgroup-mapping:
+            server-service-group: default

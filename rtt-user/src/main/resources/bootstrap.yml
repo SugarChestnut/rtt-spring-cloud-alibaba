@@ -1,0 +1,35 @@
+spring:
+    application:
+        name: rtt-user
+    cloud:
+        nacos:
+            username: nacos
+            password: nacos
+            server-addr: http://127.0.0.1:8848
+            config:
+#                server-addr: ${spring.cloud.nacos.server-addr}
+#                username: ${spring.cloud.nacos.username}
+#                password: ${spring.cloud.nacos.password}
+                file-extension: yaml
+                group: app
+                namespace: dev
+#                自动刷新配置
+                refresh-enabled: true
+#                是否开启
+                enabled: true
+#                data-id，优先级高于 spring.application.name
+                name: rtt-user
+#                获取配置超时时间
+                timeout: 3000
+            discovery:
+                # 注册中心地址，多个地址可以用逗号隔开
+#                server-addr: ${spring.cloud.nacos.server-addr}
+#                username: ${spring.cloud.nacos.username}
+#                password: ${spring.cloud.nacos.password}
+                group: app
+                # 权重，1 ～ 100，数值越大，权重越高
+                weight: 20
+#                用于在多网卡的时候选择首选 IP 地址进行注册
+#                ip:
+#                命名空间 ID
+                namespace: dev

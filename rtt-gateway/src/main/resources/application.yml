@@ -1,0 +1,89 @@
+server:
+    port: 13148
+spring:
+    #    config:
+    #        # springboot 2.4 开始支持
+    #        import:
+    #            - optional:nacos:spring-cloud-base.yaml
+    #    profiles:
+    #        include:
+    #        active: default
+    application:
+        name: rtt-gateway
+    cloud:
+        gateway:
+            enabled: true
+            routes:
+                # id 自定义，全局唯一
+                -   id: request-rate-limiter-route
+                    # 匹配后的访问地址，使用服务发现做负载均衡
+                    uri: lb://rtt-server
+                    # 断言，路径匹配
+                    # 过滤器分类：ZonedDateTime、Cookie、Header、Host、Method、Path、Query、RemoteAddr
+                    predicates:
+                        - Path=/server/**
+                    # 过滤规则
+                    filters:
+                        # 通过 name + GatewayFilterFactory 获取 factoryBean，创建 gatewayFilter，将 filter 添加到链路中
+                        # 简写方式（去掉前缀，这里就是去掉 server）
+                        #                        - StripPrefix=1
+                        -   name: StripPrefix
+                            args:
+                                parts: 1
+                        -   name: Retry
+                            args:
+                                retries: 3
+                                statuses:
+                                    - SERVICE_UNAVAILABLE
+                        # 自定义 filter
+                        -   name: Auth
+                            args:
+                                role: admin
+                        -   name: RequestRateLimiter
+                            args:
+                                # RequestRateLimiterGatewayFilterFactory 配置
+                                deny-empty-key: true
+                                empty-key-status-code: FORBIDDEN
+                                # SpEL 配置指定 ipAddressKeyResolver 名称的 bean
+                                key-resolver: '#{@ipAddressKeyResolver}'
+#                                rate-limiter: '#{@localMemoryRateLimiter}'
+                                redis-rate-limiter.replenishRate: 2
+                                redis-rate-limiter.burstCapacity: 2
+                                redis-rate-limiter.requestedTokens: 1
+            # RequestRateLimiterGatewayFilterFactory 默认配置
+#            filter:
+#                # 启用 RequestRateLimiter，通过 Factory 创建 GatewayFilter
+#                request-rate-limiter:
+#                    # 如果 KeyResolver 返回的结果为空，直接拒绝，返回 FORBIDDEN 状态码
+#                    deny-empty-key: true
+#                    empty-key-status-code: FORBIDDEN
+            discovery:
+                locator:
+                    # 开启从注册中心动态创建路由的功能
+                    enabled: true
+                    # 默认大写
+                    lower-case-service-id: true
+            # 配置请求参数
+            httpclient:
+                connect-timeout: 1000
+                response-timeout: 5s
+        # 服务发现
+        nacos:
+            server-addr: http://127.0.0.1:8848
+            username: nacos
+            password: nacos
+            discovery:
+                group: app
+                namespace: dev
+                enabled: true
+        # 限流
+        sentinel:
+            enabled: true
+            transport:
+                dashboard: http://127.0.0.1:13149
+                port: 8721
+    redis:
+        host: 127.0.0.1
+        port: 6379
+
+
