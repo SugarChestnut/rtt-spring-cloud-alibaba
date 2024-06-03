@@ -15,7 +15,7 @@ spring:
             enabled: true
             routes:
                 # id 自定义，全局唯一
-                -   id: request-rate-limiter-route
+                -   id: rtt-server-route
                     # 匹配后的访问地址，使用服务发现做负载均衡
                     uri: lb://rtt-server
                     # 断言，路径匹配
@@ -38,25 +38,31 @@ spring:
                         # 自定义 filter
                         -   name: Auth
                             args:
-                                role: admin
+                                header-key: authentication
+                                auth:
+                                    all-purpose: jxz
                         -   name: RequestRateLimiter
+                            # RequestRateLimiterFactory 的 config 的属性
                             args:
-                                # RequestRateLimiterGatewayFilterFactory 配置
                                 deny-empty-key: true
-                                empty-key-status-code: FORBIDDEN
+                                empty-key-status: FORBIDDEN
                                 # SpEL 配置指定 ipAddressKeyResolver 名称的 bean
-                                key-resolver: '#{@ipAddressKeyResolver}'
-#                                rate-limiter: '#{@localMemoryRateLimiter}'
-                                redis-rate-limiter.replenishRate: 2
-                                redis-rate-limiter.burstCapacity: 2
-                                redis-rate-limiter.requestedTokens: 1
-            # RequestRateLimiterGatewayFilterFactory 默认配置
-#            filter:
-#                # 启用 RequestRateLimiter，通过 Factory 创建 GatewayFilter
-#                request-rate-limiter:
-#                    # 如果 KeyResolver 返回的结果为空，直接拒绝，返回 FORBIDDEN 状态码
-#                    deny-empty-key: true
-#                    empty-key-status-code: FORBIDDEN
+#                                key-resolver: '#{@ipAddressKeyResolver}'
+                                # RedisRateLimiter 的 config 属性，从 limiter 中 CONFIGURATION_PROPERTY_NAME，获取属性的前缀
+                                redis-rate-limiter:
+                                    replenish-rate: 2
+                                    burst-capacity: 2
+                                    requested-tokens: 1
+            filter:
+                # RequestRateLimiterGatewayFilterFactory 的 通用属性
+                request-rate-limiter:
+                    deny-empty-key: true
+                    empty-key-status-code: FORBIDDEN
+                auth:
+                    enable: true
+            # RedisRateLimiter 的通用属性
+            redis-rate-limiter:
+                includeHeaders: true
             discovery:
                 locator:
                     # 开启从注册中心动态创建路由的功能
@@ -85,5 +91,12 @@ spring:
     redis:
         host: 127.0.0.1
         port: 6379
-
-
+    security:
+        user:
+            name: rtt
+            password: rtt
+            roles:
+                - "ADMIN"
+logging:
+    level:
+        root: info

@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
  * @author rtt
  * @date 2024/5/30 13:22
  */
-@Component
+//@Component
 public class IpAddressKeyResolver implements KeyResolver {
 
     /**
