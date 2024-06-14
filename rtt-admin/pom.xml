@@ -6,9 +6,15 @@
     <parent>
         <groupId>cn.rentaotao</groupId>
         <artifactId>rtt-spring-cloud-alibaba</artifactId>
-        <version>${revision}</version>
+        <version>1.0</version>
     </parent>
 
-    <artifactId>rtt-auth</artifactId>
+    <artifactId>rtt-admin</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>

@@ -8,7 +8,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>rtt-server</artifactId>
+    <artifactId>rtt-platform</artifactId>
     <name>rtt-server</name>
     <description>rtt-server</description>
 
