@@ -9,6 +9,7 @@ import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayRuleManager;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.SentinelGatewayFilter;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.NonNull;
@@ -29,6 +31,7 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -40,11 +43,12 @@ import java.util.List;
 @Configuration
 public class GatewayConfig {
 
-    //    @Bean
-    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
-        RemoteAddressResolver resolver = XForwardedRemoteAddressResolver
-                .maxTrustedIndex(1);
-
+    /**
+     * 代码方式构建 route
+     */
+//    @Bean
+    public RouteLocator routeLocator(RouteLocatorBuilder builder, RemoteAddressResolver remoteAddressResolver) {
+        // RemoteAddrRoutePredicate
         return builder.routes()
                 .route(
                         "direct-route",
@@ -52,9 +56,43 @@ public class GatewayConfig {
                 )
                 .route(
                         "proxied-route",
-                        r -> r.remoteAddr(resolver, "10.10.1.1", "10.10.1.1/24").uri("http://127.0.0.1:13142")
+                        r -> r.remoteAddr(remoteAddressResolver, "10.10.1.1", "10.10.1.1/24").uri("http://127.0.0.1:13142")
                 )
                 .build();
+    }
+
+    @Bean
+    public GlobalFilter customGlobalFilter() {
+        return (exchange, chain) -> exchange.getPrincipal()
+                .map(Principal::getName)
+                .defaultIfEmpty("DEFAULT_USER")
+                .map(username -> {
+                    exchange.getRequest().mutate().header("CUSTOM_REQUEST_HEADER", username).build();
+                    return exchange;
+                })
+                .flatMap(chain::filter);
+    }
+
+    @Bean
+    public GlobalFilter postCustomGlobalFilter() {
+        return (exchange, chain) -> chain.filter(exchange)
+                .then(Mono.just(exchange))
+                .map(serverWebExchange -> {
+                    serverWebExchange.getResponse()
+                            .getHeaders()
+                            .set("CUSTOM_RESPONSE_HEADER", HttpStatus.OK.equals(serverWebExchange.getResponse().getStatusCode()) ? "It worked" : "It did not worked");
+                    return serverWebExchange;
+                })
+                .then();
+    }
+
+    /**
+     * RemoteAddrRoutePredicateFactory
+     * 解决因为代理服务器的原因，header 属性 X-Forwarded-For 存在多个地址
+     */
+    @Bean
+    public RemoteAddressResolver remoteAddressResolver() {
+        return XForwardedRemoteAddressResolver.maxTrustedIndex(1);
     }
 
     /**

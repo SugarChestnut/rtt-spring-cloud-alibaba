@@ -12,13 +12,15 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>rtt-server</module>
+		<module>rtt-platform</module>
 		<module>rtt-user</module>
 		<module>rtt-api</module>
 		<module>rtt-gateway</module>
 		<module>rtt-order</module>
-        <module>rtt-auth</module>
-    </modules>
+        <module>rtt-auth-security</module>
+		<module>rtt-admin</module>
+		<module>rtt-auth-satoken</module>
+	</modules>
 
 	<properties>
 		<revision>1.0</revision>
@@ -29,6 +31,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<mybatis-plus-boot-starter.version>3.5.3</mybatis-plus-boot-starter.version>
 		<mysql-connector.version>8.0.33</mysql-connector.version>
+		<spring-boot-version>2.7.13</spring-boot-version>
+		<spring-cloud-version>2021.0.6</spring-cloud-version>
+		<alibaba-cloud-version>2021.0.5.0</alibaba-cloud-version>
 	</properties>
 
 	<dependencies>
@@ -38,6 +43,29 @@
 			<version>1.18.32</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -57,7 +85,7 @@
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>2.7.13</version>
+				<version>${spring-boot-version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -65,7 +93,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2021.0.6</version>
+				<version>${spring-cloud-version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -73,9 +101,21 @@
 			<dependency>
 				<groupId>com.alibaba.cloud</groupId>
 				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
-				<version>2021.0.5.0</version>
+				<version>${alibaba-cloud-version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>2.7.10</version>
+			</dependency>
+
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>2.7.16</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -85,7 +125,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.7.13</version>
+				<version>${spring-boot-version}</version>
 			</plugin>
 		</plugins>
 	</build>

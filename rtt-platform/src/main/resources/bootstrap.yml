@@ -36,3 +36,4 @@ spring:
                 #                ip:
                 #                命名空间 ID
                 namespace: dev
+                enabled: true

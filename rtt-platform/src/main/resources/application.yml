@@ -1,5 +1,5 @@
 server:
-    port: 13140
+    port: 9002
 spring:
     cloud:
         sentinel:
@@ -53,6 +53,10 @@ spring:
         loadbalancer:
             nacos:
                 enabled: true
+    boot:
+      admin:
+        client:
+            url:
 seata:
     enabled: true
     # 事务分组，类似于服务实例
@@ -83,3 +87,19 @@ seata:
     service:
         vgroup-mapping:
             server-service-group: default
+management:
+    #	health:  # 检测服务状态是通过http://localhost:9111/actuator/health接口，可去掉不用检测项
+    #		mail: # 健康检测时，不要检测邮件
+    #			enabled: false
+    trace:
+        http:
+            enabled: true
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            show-details: always
+#        logfile: # 日志（想在线看日志才配）
+#            external-file: ./logs/rtt-platform.log

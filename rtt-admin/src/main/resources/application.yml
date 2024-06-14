@@ -1,0 +1,39 @@
+server:
+    port: 9001
+spring:
+    boot:
+        admin:
+            ui:
+                title: R-Admin
+            monitor:
+                # 请求超时
+                default-timeout: 20000ms
+                # 检查状态的时间间隔
+                status-interval: 10000ms
+            # 正则表达式，匹配的元数据值将不会在页面中展示
+            metadata-keys-to-sanitize: .*password,.*secret
+            # 指定要展示的内容
+#            probed-endpoints: health,env,metrics,httptrace:trace,threaddump:dump,jolokia,info,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents
+    cloud:
+        nacos:
+            discovery:
+                enabled: true
+                service: ${spring.application.name}
+                server-addr: 127.0.0.1:8848
+                username: nacos
+                password: nacos
+                namespace: dev
+                group: app
+    application:
+        name: rtt-admin
+#management:
+#    trace:
+#        http:
+#            enabled: true
+#    endpoints:
+#        web:
+#            exposure:
+#                include: "*"
+#    endpoint:
+#        health:
+#            show-details: always
