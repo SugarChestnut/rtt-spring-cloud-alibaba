@@ -1,12 +1,10 @@
 package cn.rentaotao.order.web;
 
-import cn.rentaotao.api.service.order.OrderService;
+import cn.rentaotao.core.bean.JsonResult;
+import cn.rentaotao.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 /**
  * @author rtt
@@ -23,9 +21,21 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @RequestMapping("/create")
-    public String createOrder(@RequestBody Map<String, Object> data) {
-        orderService.create((Integer) data.get("userId"), (Integer) data.get("fee"));
-        return "success";
+    /**
+     * 创建订单ID
+     */
+    @RequestMapping("/genOrderNo")
+    public JsonResult<String> genOrderId() {
+
+        return JsonResult.buildSuccess();
+    }
+
+    /**
+     * 创建订单
+     */
+    @RequestMapping("/createOrder")
+    public JsonResult<String> createOrder() {
+
+        return JsonResult.buildSuccess();
     }
 }

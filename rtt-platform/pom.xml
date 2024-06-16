@@ -4,38 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.rentaotao</groupId>
-        <artifactId>rtt-spring-cloud-alibaba</artifactId>
-        <version>1.0</version>
+        <artifactId>rtt-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../rtt-parent</relativePath>
     </parent>
 
     <artifactId>rtt-platform</artifactId>
-    <name>rtt-server</name>
-    <description>rtt-server</description>
+    <name>rtt-platform</name>
+    <description>rtt-platform</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
 <!--        <dependency>-->
@@ -57,19 +39,40 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>druid</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-<!-- 使用 nacos 作为 sentinel 的动态数据源       -->
+        <!-- 使用 nacos 作为 sentinel 的动态数据源       -->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>cn.rentaotao</groupId>
-            <artifactId>rtt-api</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-version}</version>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <fork>true</fork>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -8,21 +8,15 @@
         <version>${revision}</version>
         <relativePath>../rtt-parent</relativePath>
     </parent>
-    <artifactId>rtt-order</artifactId>
-    <name>rtt-order</name>
-    <description>rtt-order</description>
+    <artifactId>rtt-customer</artifactId>
+    <name>rtt-customer</name>
+    <description>rtt-customer</description>
 
     <dependencies>
 
         <dependency>
             <groupId>cn.rentaotao</groupId>
-            <artifactId>rtt-order-api</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.rentaotao</groupId>
-            <artifactId>rtt-core</artifactId>
+            <artifactId>rtt-customer-api</artifactId>
             <version>${revision}</version>
         </dependency>
 

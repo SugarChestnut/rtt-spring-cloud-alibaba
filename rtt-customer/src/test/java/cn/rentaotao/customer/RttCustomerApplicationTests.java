@@ -1,8 +1,9 @@
-package cn.rentaotao.order;
+package cn.rentaotao.customer;
+
 
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RttOrderApplicationTests {
+class RttCustomerApplicationTests {
 
 }
