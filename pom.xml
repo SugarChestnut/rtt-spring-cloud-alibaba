@@ -41,10 +41,24 @@
 		<alibaba-cloud-version>2021.0.5.0</alibaba-cloud-version>
 		<redission.version>3.31.0</redission.version>
 		<jjwt.version>0.12.5</jjwt.version>
+		<dubbo.version>3.2.13</dubbo.version>
 	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>0.12.5</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.projectlombok</groupId>
@@ -84,6 +98,14 @@
 				<groupId>com.alibaba.cloud</groupId>
 				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
 				<version>${alibaba-cloud-version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.dubbo</groupId>
+				<artifactId>dubbo-bom</artifactId>
+				<version>${dubbo.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

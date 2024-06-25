@@ -1,14 +1,17 @@
 spring:
     application:
-        name: rtt-order
+        name: rtt-product
     cloud:
+        config:
+            # 外部配置能否覆盖系统配置
+            allow-override: true
         nacos:
             username: nacos
             password: nacos
             server-addr: http://127.0.0.1:8848
             config:
                 file-extension: yaml
-                group: order-service
+                group: product-service
                 namespace: eshop
                 # 自动刷新配置
                 refresh-enabled: false

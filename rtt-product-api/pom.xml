@@ -11,5 +11,11 @@
     <name>rtt-product-api</name>
     <description>rtt-product-api</description>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>cn.rentaotao</groupId>
+            <artifactId>rtt-core</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
 </project>

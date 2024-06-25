@@ -13,7 +13,22 @@
     <description>rtt-product</description>
 
     <dependencies>
+        <dependency>
+            <groupId>cn.rentaotao</groupId>
+            <artifactId>rtt-product-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.alibaba</groupId>-->
+<!--                    <artifactId>druid</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

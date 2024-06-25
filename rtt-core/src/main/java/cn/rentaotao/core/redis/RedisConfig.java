@@ -33,11 +33,11 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private String port;
 
-    @Value("${spring.redis.password}")
-    private String password;
-
-    @Value("${spring.redis.timeout}")
-    private int timeout;
+//    @Value("${spring.redis.password}")
+//    private String password;
+//
+//    @Value("${spring.redis.timeout}")
+//    private int timeout;
 
     @Bean
     @ConditionalOnBean(RedisConnectionFactory.class)
@@ -56,13 +56,13 @@ public class RedisConfig {
         Config config = new Config();
         config.useSingleServer()
                 .setAddress("redis://"+host+":"+port)
-                .setPassword(password)
+//                .setPassword(password)
                 .setConnectionMinimumIdleSize(10)
                 .setConnectionPoolSize(100)
                 .setIdleConnectionTimeout(600000)
                 .setSubscriptionConnectionMinimumIdleSize(10)
-                .setSubscriptionConnectionPoolSize(100)
-                .setTimeout(timeout);
+                .setSubscriptionConnectionPoolSize(100);
+//                .setTimeout(timeout);
 
         config.setCodec(new StringCodec());
         config.setThreads(5);

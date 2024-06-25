@@ -22,13 +22,8 @@
 
         <dependency>
             <groupId>cn.rentaotao</groupId>
-            <artifactId>rtt-core</artifactId>
+            <artifactId>rtt-product-api</artifactId>
             <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 
         <dependency>
@@ -42,11 +37,16 @@
             </exclusions>
         </dependency>
 
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>-->
+        <!--        </dependency>-->
+
         <!-- 使用 nacos 作为 sentinel 的动态数据源       -->
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-datasource-nacos</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.csp</groupId>-->
+<!--            <artifactId>sentinel-datasource-nacos</artifactId>-->
+<!--        </dependency>-->
 
     </dependencies>
 
