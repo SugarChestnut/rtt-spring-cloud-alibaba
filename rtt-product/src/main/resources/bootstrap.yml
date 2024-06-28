@@ -2,6 +2,11 @@ spring:
     application:
         name: rtt-product
     cloud:
+        refresh:
+            enabled: true
+            additional-property-sources-to-retain:
+                # 要保留的配置
+                - rtt
         config:
             # 外部配置能否覆盖系统配置
             allow-override: true
@@ -11,20 +16,29 @@ spring:
             server-addr: http://127.0.0.1:8848
             config:
                 file-extension: yaml
-                group: product-service
+                group: service
                 namespace: eshop
                 # 自动刷新配置
                 refresh-enabled: false
                 # 是否开启
                 enabled: true
                 # data-id，优先级高于 spring.application.name
-#                name: order-base
+                name: product-service
                 # 获取配置超时时间
                 timeout: 3000
                 shared-configs:
                     -   group: global
-                        data-id: dubbo
+                        # 如果不带后缀，默认是 properties，这个时候 data-id 是 dubbo.yaml
+                        data-id: dubbo.yaml
+                        # 这里的刷新意思是，如果缓存已存在，是否重新从远程获取覆盖
+                        refresh: false
                     -   group: global
                         data-id: redis
+                        refresh: false
                     -   group: global
-                        data-id: seata
+                        data-id: dubbo.yaml
+                        refresh: false
+#                extension-configs:
+#                    -   group: ext
+#                        data-id: ext.yaml
+#                        refresh: false

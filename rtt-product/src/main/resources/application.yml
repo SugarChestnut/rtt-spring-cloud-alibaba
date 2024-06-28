@@ -22,9 +22,9 @@ dubbo:
         name: dubbo
         port: '#{${server.port} + 1000}'
 
-seata:
-    enabled: true
-    tx-service-group: order-service-group
-    service:
-        vgroup-mapping:
-            order-service-group: default
+#seata:
+#    enabled: true
+#    tx-service-group: order-service-group
+#    service:
+#        vgroup-mapping:
+#            order-service-group: default

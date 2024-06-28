@@ -1,5 +1,7 @@
 package cn.rentaotao.product.config.listener;
 
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+
 /**
  * 监听 nacos 上的配置
  *
@@ -7,4 +9,9 @@ package cn.rentaotao.product.config.listener;
  * @date 2024/6/21 13:30
  */
 public class ProductCloudConfig {
+
+
+    public String productName;
+
+    public Integer productNum;
 }
