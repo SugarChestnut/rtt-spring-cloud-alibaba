@@ -7,6 +7,9 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: root
         password: 03121994
+    profiles:
+        active: test
+        include: prod,test
 #    cloud:
 #        sentinel:
 #            enabled: false
