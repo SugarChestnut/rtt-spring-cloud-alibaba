@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.rentaotao</groupId>
-        <artifactId>rtt-parent</artifactId>
+        <artifactId>rtt-bom</artifactId>
         <version>${revision}</version>
-        <relativePath>../rtt-parent</relativePath>
+        <relativePath>../rtt-bom</relativePath>
     </parent>
     <artifactId>rtt-product</artifactId>
     <name>rtt-product</name>

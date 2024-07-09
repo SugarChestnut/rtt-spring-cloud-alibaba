@@ -7,9 +7,9 @@
         <artifactId>rtt-spring-cloud-alibaba</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>rtt-parent</artifactId>
-    <name>rtt-parent</name>
-    <description>rtt-parent</description>
+    <artifactId>rtt-bom</artifactId>
+    <name>rtt-bom</name>
+    <description>rtt-bom</description>
 
     <packaging>pom</packaging>
 

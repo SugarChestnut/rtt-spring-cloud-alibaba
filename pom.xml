@@ -24,7 +24,9 @@
 		<module>rtt-product</module>
 		<module>rtt-product-api</module>
 		<module>rtt-core</module>
-		<module>rtt-parent</module>
+		<module>rtt-bom</module>
+		<module>rtt-pay</module>
+		<module>rtt-pay-api</module>
 	</modules>
 
 	<properties>
