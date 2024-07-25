@@ -7,6 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 监听 nacos 上的配置
@@ -17,26 +19,27 @@ import javax.annotation.PostConstruct;
 @Data
 @RefreshScope
 @ConfigurationProperties("product")
-public class ProductRemoteConfig implements InitializingBean, DisposableBean {
+public class ProductProperties implements InitializingBean, DisposableBean {
 
-    public String name;
+    private Boolean canSale = false;
 
-    public Integer num;
+    private List<String> excludes = new ArrayList<>();
 
     @Override
     public void destroy() throws Exception {
-        // 在配置刷新的时候，先销毁
-        System.out.printf("[destroy] name: %s, num: %d%n", name, num);
+        // 1、在配置刷新的时候，先销毁
+        System.out.printf("[destroy] canSale: %s, excludes: %s%n", canSale, excludes.toString());
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        // 在配置刷新的时候，重新初始化
-        System.out.printf("[afterPropertiesSet] name: %s, num: %d%n", name, num);
+        // 3、在配置刷新的时候，重新初始化
+        System.out.printf("[afterPropertiesSet] canSale: %s, excludes: %s%n", canSale, excludes.toString());
     }
 
     @PostConstruct
     public void init() {
-        System.out.printf("[init] name: %s, num: %d%n", name, num);
+        // 2、
+        System.out.printf("[init] canSale: %s, excludes: %s%n", canSale, excludes.toString());
     }
 }

@@ -29,5 +29,10 @@ public class ProductInfoDTO extends AbstractObject implements Serializable {
     /**
      * 生产厂家
      */
-    private String producer;
+    private String manufacturers;
+
+    /**
+     * 商品数量
+     */
+    private Integer num;
 }

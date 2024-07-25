@@ -1,6 +1,7 @@
 package cn.rentaotao.product.api;
 
 import cn.rentaotao.core.dao.BaseDAO;
+import cn.rentaotao.product.dao.ProductInfoDAO;
 import cn.rentaotao.product.domain.dto.ProductInfoDTO;
 import cn.rentaotao.product.domain.dto.ProductQueryDTO;
 import cn.rentaotao.product.domain.entity.ProductInfo;
@@ -20,17 +21,12 @@ import java.util.stream.Collectors;
 @DubboService
 public class ProductQueryServiceImpl implements ProductQueryService {
 
-    private final BaseDAO<ProductInfoMapper, ProductInfo> productInfoDTO;
+    private final ProductInfoDAO productInfoDAO;
 
     @Override
     public List<ProductInfoDTO> query(List<ProductQueryDTO> productQueryDTOList) {
         if (productQueryDTOList != null) {
-            return productQueryDTOList.stream().map(productQueryDTO -> {
-                ProductInfoDTO productInfoDTO = new ProductInfoDTO();
-                productQueryDTO.clone(productInfoDTO);
-                productInfoDTO.setProducer("eshop");
-                return productInfoDTO;
-            }).collect(Collectors.toList());
+            return productInfoDAO.getFromLocal(productQueryDTOList);
         }
         return Collections.emptyList();
     }
