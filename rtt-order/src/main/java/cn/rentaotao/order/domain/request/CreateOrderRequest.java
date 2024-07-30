@@ -3,6 +3,7 @@ package cn.rentaotao.order.domain.request;
 import cn.rentaotao.core.bean.AbstractObject;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.List;
  * 创建订单请求入参
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class CreateOrderRequest extends AbstractObject implements Serializable {
 
     private static final long serialVersionUID = -3719117561480569064L;
@@ -162,6 +164,7 @@ public class CreateOrderRequest extends AbstractObject implements Serializable {
      * 订单条目信息
      */
     @Data
+    @EqualsAndHashCode(callSuper = false)
     public static class OrderItemRequest extends AbstractObject implements Serializable {
 
         private static final long serialVersionUID = 8267460170612816097L;
@@ -185,6 +188,7 @@ public class CreateOrderRequest extends AbstractObject implements Serializable {
     /**
      * 订单费用信息
      */
+    @EqualsAndHashCode(callSuper = false)
     @Data
     public static class OrderAmountRequest extends AbstractObject implements Serializable {
 
@@ -205,6 +209,7 @@ public class CreateOrderRequest extends AbstractObject implements Serializable {
      * 订单支付信息
      */
     @Data
+    @EqualsAndHashCode(callSuper = false)
     public static class PaymentRequest extends AbstractObject implements Serializable {
 
 

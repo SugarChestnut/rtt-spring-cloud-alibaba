@@ -1,0 +1,114 @@
+server:
+    port: 13148
+spring:
+    application:
+        name: rtt-gateway
+    cloud:
+        gateway:
+            enabled: true
+            # 全局跨域配置
+            globalcors:
+                #                add-to-simple-url-handler-mapping: true
+                cors-configurations:
+                    '[/**]':
+                        allowedOrigins: "https://docs.spring.io"
+                        allowed-methods:
+                            - GET
+                            - POST
+            routes:
+                # 路由，id 自定义，全局唯一
+                -   id: rtt-server-route
+                    # 匹配后的访问地址，使用服务发现做负载均衡
+                    uri: lb://rtt-server
+                    # 断言，判断路径是否匹配当前 route，分类：ZonedDateTime、Cookie、Header、Host、Method、Path、Query、RemoteAddr
+                    predicates:
+                        # 简写： - Path=/server/**,/user/**
+                        -   name: Path
+                            args:
+                                patterns: /server/**
+                    # 过滤器链，通过 name + GatewayFilterFactory 获取 factoryBean，创建 gatewayFilter，将 filter 添加到链路中
+                    filters:
+                        # 去掉前缀，这里就是去掉 server，简写方式：- StripPrefix=1
+                        -   name: StripPrefix
+                            args:
+                                parts: 1
+                        # 自定义 filter，权限认证
+                        -   name: Auth
+                            args:
+                                header-key: authentication
+                                auth:
+                                    all-purpose: jxz
+                        # 限流
+                        -   name: RequestRateLimiter
+                            args:
+                                deny-empty-key: true
+                                empty-key-status: FORBIDDEN
+                                # SpEL 配置指定 ipAddressKeyResolver 名称的 bean
+                                # key-resolver: '#{@ipAddressKeyResolver}'
+                                # RedisRateLimiter 的 config 属性，从 limiter 中 CONFIGURATION_PROPERTY_NAME，获取属性的前缀
+                                redis-rate-limiter:
+                                    # 令牌的补充速率，相当于限制 QPS
+                                    replenish-rate: 2
+                                    # 令牌桶的最大容量，QPS 峰值
+                                    burst-capacity: 60
+                                    # 每个请求消耗的令牌数量
+                                    requested-tokens: 1
+            # filter 中一些通用、默认属性配置
+            filter:
+                # RequestRateLimiterGatewayFilterFactory
+                request-rate-limiter:
+                    deny-empty-key: true
+                    empty-key-status-code: FORBIDDEN
+                auth:
+                    enable: true
+            # RedisRateLimiter 的通用属性
+            redis-rate-limiter:
+                includeHeaders: true
+            # 服务发现
+            discovery:
+                locator:
+                    enabled: true
+                    lower-case-service-id: true
+            # http 配置
+            httpclient:
+                connect-timeout: 1000
+                response-timeout: 5s
+                ssl:
+                    # 信任下游的证书，一般不适合生产环境是用
+                    use-insecure-trust-manager: true
+                    # 配置证书
+        #                    trusted-x509-certificates:
+        #                        - xxx.pem
+        # 服务发现
+        nacos:
+            server-addr: http://127.0.0.1:8848
+            username: nacos
+            password: nacos
+            discovery:
+                namespace: eshop
+                group: dubbo-service
+                enabled: true
+        # 限流
+        sentinel:
+            enabled: true
+            transport:
+                dashboard: http://127.0.0.1:13149
+                port: 8721
+    redis:
+        host: 127.0.0.1
+        port: 6379
+        lettuce:
+            pool:
+                max-active: 8
+                max-idle: 8
+                min-idle: 8
+                max-wait: 200ms
+    security:
+        user:
+            name: rtt
+            password: rtt
+            roles:
+                - "ADMIN"
+#logging:
+#    level:
+#        root: info

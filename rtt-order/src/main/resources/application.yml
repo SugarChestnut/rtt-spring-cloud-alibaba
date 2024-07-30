@@ -7,24 +7,29 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: root
         password: 03121994
-#    cloud:
-#        sentinel:
-#            enabled: false
-#            transport:
-#                port: 8719
-#                dashboard: localhost:13149
-#        loadbalancer:
-#            nacos:
-#                enabled: true
-
+    cloud:
+        sentinel:
+            enabled: true
+            transport:
+                dashboard: http://127.0.0.1:13149
+                port: 8721
 dubbo:
     protocol:
         name: dubbo
-        port: '#{${server.port} + 1000}'
+        port: 13241
 
-seata:
-    enabled: true
-    tx-service-group: order-service-group
-    service:
-        vgroup-mapping:
-            order-service-group: default
+#seata:
+#    enabled: true
+#    tx-service-group: order-service-group
+#    service:
+#        vgroup-mapping:
+#            order-service-group: default
+
+management:
+    endpoints:
+        jmx:
+            exposure:
+                include: '*'
+        web:
+            exposure:
+                include: '*'

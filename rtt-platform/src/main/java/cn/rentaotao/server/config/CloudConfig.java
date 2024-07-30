@@ -4,8 +4,13 @@ import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 /**
  * @author rtt
@@ -40,9 +45,15 @@ public class CloudConfig {
         return origin;
     }
 
+    /**
+     * RestTemplate 拦截器
+     */
     @Bean
-    public ClientHttpRequestInterceptor rttRestTemplateInterceptor() {
-        return new RttRestTemplateInterceptor();
+    public ClientHttpRequestInterceptor demoRestTemplateInterceptor() {
+        return (request, body, execution) -> {
+            System.out.println("RttRestTemplateInterceptor");
+            return execution.execute(request, body);
+        };
     }
 
 }

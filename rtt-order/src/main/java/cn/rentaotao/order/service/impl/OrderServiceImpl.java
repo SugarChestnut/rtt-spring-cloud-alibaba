@@ -8,6 +8,8 @@ import cn.rentaotao.order.service.OrderService;
 import cn.rentaotao.product.api.ProductQueryService;
 import cn.rentaotao.product.domain.dto.ProductInfoDTO;
 import cn.rentaotao.product.domain.dto.ProductQueryDTO;
+import com.alibaba.csp.sentinel.EntryType;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
         return new GenOrderIdDTO();
     }
 
+    @SentinelResource(value = "OrderService#createOrder", entryType = EntryType.IN)
     @Override
     public CreateOrderDTO createOrder(CreateOrderRequest createOrderRequest) {
         // 1、入参检查

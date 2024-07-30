@@ -35,9 +35,6 @@ public class IndexController {
      * 如果要在 controller 中使用热点参数规则，必须使用 @SentinelResource
      * 因为 url 资源，本质是使用拦截器，在找到指定 controller 之前，已经开始判断，这时候，没有获取到指定方法签名，
      * 从而使用了默认的 [] 无参列表，导致热点参数不匹配，从而使规则不生效
-     *
-     * @param id
-     * @return
      */
     @RequestMapping("/i/{id}")
     @SentinelResource(value = "indexController", entryType = EntryType.IN, defaultFallback = "defaultFallback")

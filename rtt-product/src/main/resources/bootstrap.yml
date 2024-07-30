@@ -15,24 +15,20 @@ spring:
             password: nacos
             server-addr: http://127.0.0.1:8848
             config:
-                file-extension: yaml
-                group: service
-                namespace: eshop
-                # 自动刷新配置
-                refresh-enabled: false
-                # 是否开启
                 enabled: true
+                namespace: eshop
+                group: ${spring.application.name}
                 # data-id，优先级高于 spring.application.name
-                # nacos 内部配置优先级 1
-                name: product-service
-                # 获取配置超时时间
+                name: ${spring.application.name}
+                file-extension: yml
+                refresh-enabled: true
+                # 刷新模式，模式是当有配置更新的时候，所有配置都重新获取，可以设置成只有相关的配置类刷新
+                refresh-behavior: all_beans
                 timeout: 3000
-                # 扩展配置 nacos 内部配置优先级 2
-                extension-configs:
-                    -   group: ext
-                        data-id: ext.yaml
-                        refresh: false
-                # nacos 内部配置优先级 3
+#                extension-configs:
+#                    -   group: service
+#                        data-id: product-service-base
+#                        refresh: true
                 shared-configs:
                     -   group: global
                         # 如果不带后缀，默认是 properties，这个时候 data-id 是 dubbo.yaml
@@ -40,8 +36,13 @@ spring:
                         # 这里的刷新意思是，如果缓存已存在，是否重新从远程获取覆盖
                         refresh: false
                     -   group: global
-                        data-id: redis
+                        data-id: redis.yaml
                         refresh: false
-                    -   group: global
-                        data-id: dubbo.yaml
-                        refresh: false
+
+            discovery:
+                enabled: true
+                namespace: eshop
+                group: ${spring.application.name}
+                service: ${spring.application.name}
+                weight: 1
+                log-name: ./logs/

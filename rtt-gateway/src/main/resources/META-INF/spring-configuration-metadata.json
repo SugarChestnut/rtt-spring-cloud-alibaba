@@ -1,0 +1,32 @@
+{
+    "groups": [],
+    "properties": [
+        {
+            "name": "spring.cloud.gateway.filter.auth",
+            "type": "cn.rentaotao.gateway.config.filter.AuthGatewayFilterFactory",
+            "sourceType": "cn.rentaotao.gateway.config.filter.AuthGatewayFilterFactory"
+        },
+        {
+            "name": "spring.cloud.gateway.filter.auth.enable",
+            "type": "java.lang.Boolean",
+            "sourceType": "cn.rentaotao.gateway.config.filter.AuthGatewayFilterFactory",
+            "description": "是否开启权限认证",
+            "defaultValue": false
+        }
+    ],
+    "hints": [
+        {
+            "name": "spring.cloud.gateway.filter.auth.enable",
+            "values": [
+                {
+                    "value": true,
+                    "description": "启用"
+                },
+                {
+                    "value": false,
+                    "description": "关闭"
+                }
+            ]
+        }
+    ]
+}
