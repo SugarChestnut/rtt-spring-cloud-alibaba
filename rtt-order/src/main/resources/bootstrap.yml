@@ -7,21 +7,23 @@ spring:
             password: nacos
             server-addr: http://127.0.0.1:8848
             config:
-                file-extension: yaml
-                group: order-service
                 namespace: eshop
-                # 自动刷新配置
-                refresh-enabled: false
-                # 是否开启
+                group: ${spring.application.name}
+                file-extension: yaml
+                refresh-enabled: true
                 enabled: true
-                # data-id，优先级高于 spring.application.name
-#                name: order-base
-                # 获取配置超时时间
                 timeout: 3000
                 shared-configs:
                     -   group: global
-                        data-id: dubbo
+                        data-id: dubbo.yaml
+                        refresh: false
                     -   group: global
-                        data-id: redis
-                    -   group: global
-                        data-id: seata
+                        data-id: redis.yaml
+                        refresh: false
+            discovery:
+                enabled: true
+                namespace: eshop
+                group: ${spring.application.name}
+                service: ${spring.application.name}
+                weight: 1
+                log-name: ./logs/

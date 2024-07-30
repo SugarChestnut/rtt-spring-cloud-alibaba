@@ -15,13 +15,15 @@ spring:
             password: nacos
             server-addr: http://127.0.0.1:8848
             config:
+                enabled: true
                 namespace: eshop
                 group: ${spring.application.name}
                 # data-id，优先级高于 spring.application.name
-#                name: product-config
+                name: ${spring.application.name}
                 file-extension: yml
                 refresh-enabled: true
-                enabled: true
+                # 刷新模式，模式是当有配置更新的时候，所有配置都重新获取，可以设置成只有相关的配置类刷新
+                refresh-behavior: all_beans
                 timeout: 3000
 #                extension-configs:
 #                    -   group: service
@@ -36,6 +38,7 @@ spring:
                     -   group: global
                         data-id: redis.yaml
                         refresh: false
+
             discovery:
                 enabled: true
                 namespace: eshop

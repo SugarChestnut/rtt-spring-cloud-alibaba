@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/route")
 public class RouteController {
 
-    @RequestMapping("/r1")
-    public String r1() {
-        return "r1";
+    @RequestMapping("/v1")
+    public String v1() {
+        return "v1";
     }
 
-    @RequestMapping("/r2")
-    public String r2() {
-        return "r2";
+    @RequestMapping("/v2")
+    public String v2() {
+        return "v2";
     }
 }

@@ -1,5 +1,6 @@
 package cn.rentaotao.server.config;
 
+import com.alibaba.csp.sentinel.adapter.dubbo.config.DubboAdapterGlobalConfig;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.UrlCleaner;
 import org.springframework.context.annotation.Bean;

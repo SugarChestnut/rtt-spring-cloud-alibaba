@@ -1,7 +1,6 @@
 package cn.rentaotao.core.bean;
 
-
-import net.sf.cglib.beans.BeanCopier;
+import org.springframework.cglib.beans.BeanCopier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +19,8 @@ public class BeanCopierUtil {
      * @param target target对象
      */
     public static void copyProperties(Object source, Object target) {
-        String cacheKey = source.getClass().toString() + target.getClass().toString();
-
-        BeanCopier beanCopier = null;
-
+        String cacheKey = source.getClass() + target.getClass().toString();
+        BeanCopier beanCopier;
         if (!beanCopierCacheMap.containsKey(cacheKey)) {
             synchronized (BeanCopierUtil.class) {
                 if (!beanCopierCacheMap.containsKey(cacheKey)) {

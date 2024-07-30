@@ -33,7 +33,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
 
     @Getter
     @Setter
-    private boolean enable;
+    private boolean enable = false;
 
     public AuthGatewayFilterFactory(AuthService authService) {
         super(Config.class);

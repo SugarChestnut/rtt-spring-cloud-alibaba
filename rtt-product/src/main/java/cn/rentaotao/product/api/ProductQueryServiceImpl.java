@@ -1,11 +1,8 @@
 package cn.rentaotao.product.api;
 
-import cn.rentaotao.core.dao.BaseDAO;
 import cn.rentaotao.product.dao.ProductInfoDAO;
 import cn.rentaotao.product.domain.dto.ProductInfoDTO;
 import cn.rentaotao.product.domain.dto.ProductQueryDTO;
-import cn.rentaotao.product.domain.entity.ProductInfo;
-import cn.rentaotao.product.mapper.ProductInfoMapper;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 

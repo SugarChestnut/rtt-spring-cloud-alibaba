@@ -17,6 +17,8 @@ public class BaseBizException extends RuntimeException {
      */
     private static final String DEFAULT_ERROR_CODE = "-1";
 
+    private static final long serialVersionUID = -8929153962809503203L;
+
     private String errorCode;
 
     private String errorMsg;
