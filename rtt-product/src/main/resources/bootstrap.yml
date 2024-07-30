@@ -23,9 +23,16 @@ spring:
                 # 是否开启
                 enabled: true
                 # data-id，优先级高于 spring.application.name
+                # nacos 内部配置优先级 1
                 name: product-service
                 # 获取配置超时时间
                 timeout: 3000
+                # 扩展配置 nacos 内部配置优先级 2
+                extension-configs:
+                    -   group: ext
+                        data-id: ext.yaml
+                        refresh: false
+                # nacos 内部配置优先级 3
                 shared-configs:
                     -   group: global
                         # 如果不带后缀，默认是 properties，这个时候 data-id 是 dubbo.yaml
@@ -38,7 +45,3 @@ spring:
                     -   group: global
                         data-id: dubbo.yaml
                         refresh: false
-#                extension-configs:
-#                    -   group: ext
-#                        data-id: ext.yaml
-#                        refresh: false

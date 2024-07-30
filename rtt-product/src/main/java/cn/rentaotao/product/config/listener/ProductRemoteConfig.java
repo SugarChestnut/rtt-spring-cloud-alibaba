@@ -1,5 +1,6 @@
 package cn.rentaotao.product.config.listener;
 
+import com.alibaba.nacos.api.config.annotation.NacosValue;
 import lombok.Data;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;

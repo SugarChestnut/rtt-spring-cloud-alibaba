@@ -6,6 +6,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
@@ -34,13 +37,17 @@ public class ProductNacosConfigListener implements ApplicationRunner {
 
             @Override
             public void receiveConfigInfo(String configInfo) {
+                System.out.println(configInfo);
+                Properties properties = new Properties();
+                try {
+                    properties.load(new StringReader(configInfo));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 Executor executor = getExecutor();
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.println("[ProductNacosConfigListener]" + configInfo);
-                    }
-                };
+                Runnable runnable = () -> System.out.printf("[ProductNacosConfigListener] name: %s, num: %d%n",
+                        properties.getProperty("name"),
+                        (int) properties.get("num"));
                 if (executor != null) {
                     executor.execute(runnable);
                 } else {
