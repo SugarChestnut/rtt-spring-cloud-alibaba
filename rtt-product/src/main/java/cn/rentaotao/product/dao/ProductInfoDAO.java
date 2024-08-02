@@ -9,9 +9,12 @@ import cn.rentaotao.product.domain.entity.ProductInfo;
 import cn.rentaotao.product.mapper.ProductInfoMapper;
 import com.alibaba.csp.sentinel.EntryType;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,19 +25,23 @@ import java.util.stream.Collectors;
  * @date 2024/6/20 16:33
  */
 @Repository
+@RefreshScope
 public class ProductInfoDAO extends BaseDAO<ProductInfoMapper, ProductInfo> {
+
+    @Value("${product.canSale:false}")
+    private Boolean canSale;
+
+    @Value("${product.excludes:}")
+    private List<String> excludes;
 
     private final ProductProperties productProperties;
 
     private final ConcurrentHashMap<String, Integer> warehouse = new ConcurrentHashMap<>();
 
-    {
+    public ProductInfoDAO(ProductProperties productProperties) {
         warehouse.put("sw001", 100);
         warehouse.put("ggx001", 200);
         warehouse.put("lyq001", 99);
-    }
-
-    public ProductInfoDAO(ProductProperties productProperties) {
         this.productProperties = productProperties;
     }
 
@@ -61,5 +68,21 @@ public class ProductInfoDAO extends BaseDAO<ProductInfoMapper, ProductInfo> {
         productInfoDTO.setManufacturers("eshop");
         productInfoDTO.setNum(num);
         return productInfoDTO;
+    }
+
+    public Boolean getCanSale() {
+        return canSale;
+    }
+
+    public void setCanSale(Boolean canSale) {
+        this.canSale = canSale;
+    }
+
+    public List<String> getExcludes() {
+        return excludes;
+    }
+
+    public void setExcludes(List<String> excludes) {
+        this.excludes = excludes;
     }
 }

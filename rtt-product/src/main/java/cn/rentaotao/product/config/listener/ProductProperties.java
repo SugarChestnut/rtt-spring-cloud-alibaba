@@ -16,7 +16,7 @@ import java.util.List;
  * @author rtt
  * @date 2024/6/21 13:30
  */
-@RefreshScope
+@Data
 @ConfigurationProperties("product")
 public class ProductProperties implements InitializingBean, DisposableBean {
 
@@ -40,21 +40,5 @@ public class ProductProperties implements InitializingBean, DisposableBean {
     public void init() {
         // 2、
         System.out.printf("[init] canSale: %s, excludes: %s%n", canSale, excludes.toString());
-    }
-
-    public Boolean getCanSale() {
-        return canSale;
-    }
-
-    public void setCanSale(Boolean canSale) {
-        this.canSale = canSale;
-    }
-
-    public List<String> getExcludes() {
-        return excludes;
-    }
-
-    public void setExcludes(List<String> excludes) {
-        this.excludes = excludes;
     }
 }
