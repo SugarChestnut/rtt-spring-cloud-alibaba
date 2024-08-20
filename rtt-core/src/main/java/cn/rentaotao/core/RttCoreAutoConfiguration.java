@@ -5,6 +5,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 @AutoConfiguration
-@Import({WebConfig.class, RedisConfig.class, MybatisPlusConfig.class})
+@Import({WebConfig.class, MybatisPlusConfig.class})
 public class RttCoreAutoConfiguration {
 }

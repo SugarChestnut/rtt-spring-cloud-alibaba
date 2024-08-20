@@ -1,5 +1,6 @@
 package cn.rentaotao.product;
 
+import cn.rentaotao.product.web.ProductController;
 import org.apache.dubbo.config.spring.context.annotation.DubboComponentScan;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.properties.ConfigurationPropertiesBeans;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.Arrays;
 import java.util.Set;
 
 @SpringBootApplication
@@ -21,7 +23,7 @@ import java.util.Set;
 // 扫描 @ConfigurationProperties 类，而不需要再添加 @Configuration
 @ConfigurationPropertiesScan
 // 启用缓存
-@EnableCaching
+//@EnableCaching
 @EnableDiscoveryClient
 public class RttProductApplication {
 
@@ -30,6 +32,7 @@ public class RttProductApplication {
         ConfigurationPropertiesBeans configurationPropertiesBeans = applicationContext.getBean(ConfigurationPropertiesBeans.class);
         Set<String> beanNames = configurationPropertiesBeans.getBeanNames();
         System.out.println(beanNames.size());
+        String[] beanNamesForType = applicationContext.getBeanNamesForType(ProductController.class);
     }
 
 }

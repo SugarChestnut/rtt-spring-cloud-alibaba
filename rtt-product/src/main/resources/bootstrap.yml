@@ -1,6 +1,6 @@
 spring:
     application:
-        name: rtt-product
+        name: product
     cloud:
         refresh:
             enabled: true
@@ -17,12 +17,12 @@ spring:
             config:
                 enabled: true
                 namespace: eshop
-                group: ${spring.application.name}
+                group: config
                 # data-id，优先级高于 spring.application.name
                 name: ${spring.application.name}
-                file-extension: yml
+                file-extension: yaml
                 refresh-enabled: true
-                # 刷新模式，模式是当有配置更新的时候，所有配置都重新获取，可以设置成只有相关的配置类刷新
+                # 刷新模式，模式是当有配置更新的时候，所有配置都重新获取，也可以设置成只有相关的配置类刷新
                 refresh-behavior: all_beans
                 timeout: 3000
 #                extension-configs:
@@ -30,19 +30,18 @@ spring:
 #                        data-id: product-service-base
 #                        refresh: true
                 shared-configs:
-                    -   group: global
+                    -   group: config
                         # 如果不带后缀，默认是 properties，这个时候 data-id 是 dubbo.yaml
                         data-id: dubbo.yaml
                         # 这里的刷新意思是，如果缓存已存在，是否重新从远程获取覆盖
                         refresh: false
-                    -   group: global
+                    -   group: config
                         data-id: redis.yaml
                         refresh: false
-
             discovery:
                 enabled: true
                 namespace: eshop
-                group: ${spring.application.name}
+                group: service
                 service: ${spring.application.name}
                 weight: 1
                 log-name: ./logs/

@@ -9,6 +9,8 @@ import cn.rentaotao.product.domain.entity.ProductInfo;
 import cn.rentaotao.product.mapper.ProductInfoMapper;
 import com.alibaba.csp.sentinel.EntryType;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -24,8 +26,10 @@ import java.util.stream.Collectors;
  * @author rtt
  * @date 2024/6/20 16:33
  */
+@EqualsAndHashCode(callSuper = true)
 @Repository
 @RefreshScope
+@Data
 public class ProductInfoDAO extends BaseDAO<ProductInfoMapper, ProductInfo> {
 
     @Value("${product.canSale:false}")
@@ -68,21 +72,5 @@ public class ProductInfoDAO extends BaseDAO<ProductInfoMapper, ProductInfo> {
         productInfoDTO.setManufacturers("eshop");
         productInfoDTO.setNum(num);
         return productInfoDTO;
-    }
-
-    public Boolean getCanSale() {
-        return canSale;
-    }
-
-    public void setCanSale(Boolean canSale) {
-        this.canSale = canSale;
-    }
-
-    public List<String> getExcludes() {
-        return excludes;
-    }
-
-    public void setExcludes(List<String> excludes) {
-        this.excludes = excludes;
     }
 }
