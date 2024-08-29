@@ -44,6 +44,7 @@
 		<redission.version>3.31.0</redission.version>
 		<jjwt.version>0.12.5</jjwt.version>
 		<dubbo.version>3.2.13</dubbo.version>
+		<nacos.version>2.3.2</nacos.version>
 	</properties>
 
 	<dependencies>
@@ -155,7 +156,12 @@
 			<dependency>
 				<groupId>com.alibaba.nacos</groupId>
 				<artifactId>nacos-client</artifactId>
-				<version>2.4.0</version>
+				<version>${nacos.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-common</artifactId>
+				<version>${nacos.version}</version>
 			</dependency>
 
 			<dependency>
