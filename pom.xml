@@ -27,7 +27,8 @@
 		<module>rtt-bom</module>
 		<module>rtt-pay</module>
 		<module>rtt-pay-api</module>
-	</modules>
+        <module>rtt-gateway2</module>
+    </modules>
 
 	<properties>
 		<revision>1.0</revision>

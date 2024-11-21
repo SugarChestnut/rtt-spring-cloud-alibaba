@@ -1,0 +1,35 @@
+server:
+    port: 13148
+spring:
+    application:
+        name: rtt-gateway2
+#    cloud:
+#        gateway:
+#            enabled: true
+#            # 全局跨域配置
+#            globalcors:
+#                add-to-simple-url-handler-mapping: true
+#                cors-configurations:
+#                    '[/**]':
+#                        allowedOrigins: "https://docs.spring.io"
+#                        allowed-methods:
+#                            - GET
+#                            - POST
+#            routes:
+#                -   id: rtt-server-route
+#                    uri: lb://rtt-order
+#                    predicates:
+#                        - Path=/order/**,/orderV2/**
+#                    filters:
+#                        - StripPrefix=1
+#            httpclient:
+#                connect-timeout: 1000
+#                response-timeout: 5s
+#    security:
+#        user:
+#            name: rtt
+#            password: rtt
+#            roles:
+#                - "ADMIN"
+#    main:
+#        web-application-type: reactive
