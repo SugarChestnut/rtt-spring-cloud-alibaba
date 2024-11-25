@@ -17,6 +17,8 @@ public class PrincipalHandshakeHandler extends DefaultHandshakeHandler {
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+        // 确定用户信息
+        System.out.println("Determine user");
         return super.determineUser(request, wsHandler, attributes);
     }
 }

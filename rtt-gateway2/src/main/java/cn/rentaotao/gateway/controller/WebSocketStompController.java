@@ -69,7 +69,8 @@ public class WebSocketStompController {
         ChatMessage chatMessage = objectMapper.readValue(message, ChatMessage.class);
         System.out.printf("发送者: %s, 接收者: %s%n", chatMessage.getSender(), userId);
         // 主要是因为 sendToUser 会对路径作特殊处理，不然跟 topic 广播消息没啥区别
-        template.convertAndSendToUser(userId, "/message", chatMessage);
+//        template.convertAndSendToUser(userId, "/message", chatMessage);
+        template.convertAndSendToUser(userId, "/user1/private", chatMessage);
     }
 
     @MessageExceptionHandler(Exception.class)

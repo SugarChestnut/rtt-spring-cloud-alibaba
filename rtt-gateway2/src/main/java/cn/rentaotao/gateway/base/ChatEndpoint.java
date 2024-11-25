@@ -2,7 +2,6 @@ package cn.rentaotao.gateway.base;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
