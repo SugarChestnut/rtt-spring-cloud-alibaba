@@ -37,6 +37,7 @@ public class WebSocketAutoConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         /*
             请求以 /topic 为前缀，表示订阅消息，订阅相同路径的用户都能收到消息
+
          */
         registry.enableSimpleBroker( "/topic", "/user1");
         /*

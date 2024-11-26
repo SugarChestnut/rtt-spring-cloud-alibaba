@@ -4,14 +4,22 @@ import cn.rentaotao.gateway.domain.dto.ChatMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.core.MessagePostProcessor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+
+import java.util.HashMap;
 
 /**
  * @author rtt
@@ -68,9 +76,20 @@ public class WebSocketStompController {
         ObjectMapper objectMapper = new ObjectMapper();
         ChatMessage chatMessage = objectMapper.readValue(message, ChatMessage.class);
         System.out.printf("发送者: %s, 接收者: %s%n", chatMessage.getSender(), userId);
-        // 主要是因为 sendToUser 会对路径作特殊处理，不然跟 topic 广播消息没啥区别
-//        template.convertAndSendToUser(userId, "/message", chatMessage);
-        template.convertAndSendToUser(userId, "/user1/private", chatMessage);
+        // TODO通过测试，为了在没有登录功能的情况下使用，获取有其他方式
+        template.convertAndSendToUser(userId, "/user1/private", chatMessage, new MessagePostProcessor() {
+            @Override
+            public Message<?> postProcessMessage(Message<?> message) {
+                MessageHeaders headers = message.getHeaders();
+                SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, SimpMessageHeaderAccessor.class);
+                if (accessor == null) {
+                    return message;
+                }
+                // "/user1/private" + "-user" + sessionId
+                accessor.setSessionId(userId);
+                return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
+            }
+        });
     }
 
     @MessageExceptionHandler(Exception.class)

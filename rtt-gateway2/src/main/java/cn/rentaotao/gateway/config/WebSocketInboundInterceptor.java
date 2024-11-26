@@ -2,12 +2,15 @@ package cn.rentaotao.gateway.config;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +31,13 @@ public class WebSocketInboundInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         System.out.println("Pre send");
+        MessageHeaders headers = message.getHeaders();
+        Principal user = SimpMessageHeaderAccessor.getUser(headers);
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+        // 创建 accessor
+        SimpMessageHeaderAccessor simpMessageHeaderAccessor = SimpMessageHeaderAccessor.wrap(message);
+        // 获取 accessor
+        MessageHeaderAccessor.getAccessor(headers, SimpMessageHeaderAccessor.class);
 
         if (accessor != null) {
             StompCommand command = accessor.getCommand();
@@ -45,7 +54,9 @@ public class WebSocketInboundInterceptor implements ChannelInterceptor {
                 // 断开连接
                 System.out.println("断开连接");
             }
-//                Principal user = accessor.getUser();
+            if (StompCommand.MESSAGE.equals(command)) {
+                System.out.println("发送消息");
+            }
         }
         return message;
     }
