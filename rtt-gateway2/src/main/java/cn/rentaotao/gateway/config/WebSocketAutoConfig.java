@@ -24,12 +24,18 @@ import java.util.Optional;
 @Configuration
 public class WebSocketAutoConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final SessionHandshakeInterceptor sessionHandshakeInterceptor;
+
+    public WebSocketAutoConfig(SessionHandshakeInterceptor sessionHandshakeInterceptor) {
+        this.sessionHandshakeInterceptor = sessionHandshakeInterceptor;
+    }
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // 配置端点，客户端在订阅或发布消息到目的地路径前，要链接端点
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*")
-                .addInterceptors(new SessionHandshakeInterceptor())
+                .addInterceptors(sessionHandshakeInterceptor)
                 .setHandshakeHandler(new PrincipalHandshakeHandler());
     }
 
@@ -37,9 +43,8 @@ public class WebSocketAutoConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         /*
             请求以 /topic 为前缀，表示订阅消息，订阅相同路径的用户都能收到消息
-
          */
-        registry.enableSimpleBroker( "/topic", "/user1");
+        registry.enableSimpleBroker( "/topic", "queue");
         /*
             客户端向服务端发送消息，带此前缀的请求会被 controller 处理，AnnotationMethodMessageHandler
             send 命令 -> @MessageMapping 接口处理
