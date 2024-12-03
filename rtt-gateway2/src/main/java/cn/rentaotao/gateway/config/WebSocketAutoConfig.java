@@ -44,7 +44,7 @@ public class WebSocketAutoConfig implements WebSocketMessageBrokerConfigurer {
         /*
             请求以 /topic 为前缀，表示订阅消息，订阅相同路径的用户都能收到消息
          */
-        registry.enableSimpleBroker( "/topic", "queue");
+        registry.enableSimpleBroker( "/topic", "/queue");
         /*
             客户端向服务端发送消息，带此前缀的请求会被 controller 处理，AnnotationMethodMessageHandler
             send 命令 -> @MessageMapping 接口处理

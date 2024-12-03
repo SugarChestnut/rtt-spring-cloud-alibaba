@@ -77,18 +77,15 @@ public class WebSocketStompController {
         ChatMessage chatMessage = objectMapper.readValue(message, ChatMessage.class);
         System.out.printf("发送者: %s, 接收者: %s%n", chatMessage.getSender(), userId);
         // TODO通过测试，为了在没有登录功能的情况下使用，获取有其他方式
-        template.convertAndSendToUser(userId, "/user1/private", chatMessage, new MessagePostProcessor() {
-            @Override
-            public Message<?> postProcessMessage(Message<?> message) {
-                MessageHeaders headers = message.getHeaders();
-                SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, SimpMessageHeaderAccessor.class);
-                if (accessor == null) {
-                    return message;
-                }
-                // "/user1/private" + "-user" + sessionId
-                accessor.setSessionId(userId);
-                return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
+        template.convertAndSendToUser(userId, "/queue/private", chatMessage, message1 -> {
+            MessageHeaders headers = message1.getHeaders();
+            SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message1, SimpMessageHeaderAccessor.class);
+            if (accessor == null) {
+                return message1;
             }
+            // "/user1/private" + "-user" + sessionId
+            accessor.setSessionId(userId);
+            return MessageBuilder.createMessage(message1.getPayload(), accessor.getMessageHeaders());
         });
     }
 
