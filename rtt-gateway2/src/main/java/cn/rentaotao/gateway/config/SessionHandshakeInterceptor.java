@@ -40,20 +40,20 @@ public class SessionHandshakeInterceptor implements HandshakeInterceptor, Applic
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         System.out.println("Handshake");
-        HttpSession session = null;
-        if (request instanceof ServletServerHttpRequest) {
-            HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
-            Enumeration<String> headerNames = servletRequest.getHeaderNames();
-            session = ((ServletServerHttpRequest) request).getServletRequest().getSession(false);
-        }
-        String id = UUID.randomUUID().toString();
-        if (session == null) {
-            // 一般情况下，没有权限校验，不会创建 session，创建临时 session
-            Cookie jsessionid = new Cookie("JSESSIONID", "ws:" + id);
-            HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
-            servletResponse.addCookie(jsessionid);
-        }
-        // 如果握手失败，通过 response 返回
+//        HttpSession session = null;
+//        if (request instanceof ServletServerHttpRequest) {
+//            HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
+//            Enumeration<String> headerNames = servletRequest.getHeaderNames();
+//            session = ((ServletServerHttpRequest) request).getServletRequest().getSession(false);
+//        }
+//        String id = UUID.randomUUID().toString();
+//        if (session == null) {
+//            // 一般情况下，没有权限校验，不会创建 session，创建临时 session
+//            Cookie jsessionid = new Cookie("JSESSIONID", "ws:" + id);
+//            HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
+//            servletResponse.addCookie(jsessionid);
+//        }
+//        // 如果握手失败，通过 response 返回
         return true;
     }
 

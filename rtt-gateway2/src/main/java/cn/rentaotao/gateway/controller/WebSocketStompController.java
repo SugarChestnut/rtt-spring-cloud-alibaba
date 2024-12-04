@@ -15,6 +15,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,8 @@ import java.util.HashMap;
 public class WebSocketStompController {
 
     private final SimpMessagingTemplate template;
+
+    private SimpUserRegistry simpUserRegistry;
 
     /**
      * 单纯接收客户端消息（POST），如果有返回内容，会转到 /topic/receive
@@ -76,17 +79,7 @@ public class WebSocketStompController {
         ObjectMapper objectMapper = new ObjectMapper();
         ChatMessage chatMessage = objectMapper.readValue(message, ChatMessage.class);
         System.out.printf("发送者: %s, 接收者: %s%n", chatMessage.getSender(), userId);
-        // TODO通过测试，为了在没有登录功能的情况下使用，获取有其他方式
-        template.convertAndSendToUser(userId, "/queue/private", chatMessage, message1 -> {
-            MessageHeaders headers = message1.getHeaders();
-            SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message1, SimpMessageHeaderAccessor.class);
-            if (accessor == null) {
-                return message1;
-            }
-            // "/user1/private" + "-user" + sessionId
-            accessor.setSessionId(userId);
-            return MessageBuilder.createMessage(message1.getPayload(), accessor.getMessageHeaders());
-        });
+        template.convertAndSendToUser(userId, "/queue/private", chatMessage);
     }
 
     @MessageExceptionHandler(Exception.class)
